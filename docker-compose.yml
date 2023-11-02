@@ -1,0 +1,35 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: prueba
+    depends_on:
+      - db
+    ports:
+      - '3000:3000'
+    environment:
+      - PORT=3000
+    volumes:
+      - .:/app
+    networks:
+      - mynetwork
+
+  db:
+    image: mysql:5.7.36
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    environment:
+      MYSQL_ROOT_PASSWORD: local
+      MYSQL_PASSWORD: local
+      MYSQL_DATABASE: local
+      MYSQL_USER: local
+    networks:
+      - mynetwork
+    ports:
+      - '3001:3306'
+
+networks:
+  mynetwork:
